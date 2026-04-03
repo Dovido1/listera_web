@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
+
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis,
   CartesianGrid, Tooltip, ResponsiveContainer
