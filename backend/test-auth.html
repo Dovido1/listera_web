@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Authentification - Listera</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .token {
+            word-break: break-all;
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🔐 Test d'inscription</h2>
+        <input type="text" id="registerName" placeholder="Nom" value="Test User">
+        <input type="email" id="registerEmail" placeholder="Email" value="test@example.com">
+        <input type="password" id="registerPassword" placeholder="Mot de passe" value="password123">
+        <button onclick="register()">S'inscrire</button>
+        
+        <div id="registerResponse" class="response"></div>
+        
+        <hr style="margin: 30px 0;">
+        
+        <h2>🔑 Test de connexion</h2>
+        <input type="email" id="loginEmail" placeholder="Email" value="test@example.com">
+        <input type="password" id="loginPassword" placeholder="Mot de passe" value="password123">
+        <button onclick="login()">Se connecter</button>
+        
+        <div id="loginResponse" class="response"></div>
+        
+        <hr style="margin: 30px 0;">
+        
+        <h2>👤 Test du profil</h2>
+        <input type="text" id="token" placeholder="Collez votre token ici">
+        <button onclick="getProfile()">Récupérer le profil</button>
+        
+        <div id="profileResponse" class="response"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api/auth';
+
+        async function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            const responseDiv = document.getElementById('registerResponse');
+            
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Sauvegarder le token dans localStorage
+                    localStorage.setItem('listera_token', data.token);
+    
+                    responseDiv.className = 'response success';
+                    responseDiv.innerHTML = `
+                        <strong>${data.message}</strong><br>
+                        Utilisateur: ${data.user.name} (${data.user.email})<br>
+                        <strong>✅ Token sauvegardé automatiquement !</strong><br>
+                        <small>Vous pouvez maintenant aller sur la page test-products.html</small><br>
+                        <a href="test-products.html" target="_blank" style="color: #667eea; font-weight: bold;">🚀 Ouvrir la page des produits</a>
+    `               ;
+    
+                    // Remplir automatiquement le champ token
+                    document.getElementById('token').value = data.token;
+                }
+                
+                responseDiv.style.display = 'block';
+            } catch (error) {
+                responseDiv.className = 'response error';
+                responseDiv.innerHTML = `<strong>Erreur:</strong> ${error.message}`;
+                responseDiv.style.display = 'block';
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const responseDiv = document.getElementById('loginResponse');
+            
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Sauvegarder le token dans localStorage
+                    localStorage.setItem('listera_token', data.token);
+    
+                    responseDiv.className = 'response success';
+                    responseDiv.innerHTML = `
+                        <strong>${data.message}</strong><br>
+                        Utilisateur: ${data.user.name} (${data.user.email})<br>
+                        <strong>✅ Token sauvegardé automatiquement !</strong><br>
+                        <small>Vous pouvez maintenant aller sur la page test-products.html</small><br>
+                        <a href="test-products.html" target="_blank" style="color: #667eea; font-weight: bold;">🚀 Ouvrir la page des produits</a>
+    `               ;
+    
+                    // Remplir automatiquement le champ token
+                    document.getElementById('token').value = data.token;
+                }
+                
+                responseDiv.style.display = 'block';
+            } catch (error) {
+                responseDiv.className = 'response error';
+                responseDiv.innerHTML = `<strong>Erreur:</strong> ${error.message}`;
+                responseDiv.style.display = 'block';
+            }
+        }
+
+        async function getProfile() {
+            const token = document.getElementById('token').value;
+            
+            const responseDiv = document.getElementById('profileResponse');
+            
+            if (!token) {
+                responseDiv.className = 'response error';
+                responseDiv.innerHTML = '<strong>Erreur:</strong> Veuillez d\'abord vous connecter et copier le token';
+                responseDiv.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/profile`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    responseDiv.className = 'response success';
+                    responseDiv.innerHTML = `
+                        <strong>Profil récupéré avec succès ! 🎉</strong><br>
+                        ID: ${data.user.id}<br>
+                        Nom: ${data.user.name}<br>
+                        Email: ${data.user.email}<br>
+                        Plan: ${data.user.plan}<br>
+                        Créé le: ${new Date(data.user.created_at).toLocaleString('fr-FR')}
+                    `;
+                } else {
+                    responseDiv.className = 'response error';
+                    responseDiv.innerHTML = `<strong>Erreur:</strong> ${data.error}`;
+                }
+                
+                responseDiv.style.display = 'block';
+            } catch (error) {
+                responseDiv.className = 'response error';
+                responseDiv.innerHTML = `<strong>Erreur:</strong> ${error.message}`;
+                responseDiv.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

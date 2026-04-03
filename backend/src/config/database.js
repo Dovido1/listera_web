@@ -14,13 +14,19 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
 });
 
-// Test de connexion
-pool.on('connect', () => {
-  console.log('✅ Connecté à la base de données PostgreSQL');
+// Test de connexion au démarrage
+pool.connect((err, client, release) => {
+  if (err) {
+    console.error('❌ Erreur de connexion à PostgreSQL:', err.message);
+  } else {
+    console.log('✅ Connecté à la base de données PostgreSQL');
+    release();
+  }
 });
 
+// Gestion des erreurs
 pool.on('error', (err) => {
-  console.error('❌ Erreur de connexion à la base de données:', err);
+  console.error('❌ Erreur PostgreSQL:', err);
 });
 
 export default pool;

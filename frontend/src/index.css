@@ -1,3 +1,38 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --turquoise: #0ECFB0;
+  --turquoise-dark: #09A88E;
+  --turquoise-light: #E8FBF8;
+  --sidebar-bg: #0A0F0E;
+  --bg: #F4F7F6;
+  --bg-card: #FFFFFF;
+  --text-primary: #0A0F0E;
+  --text-secondary: #5A7270;
+  --text-muted: #94B0AE;
+  --border: #E2EEEC;
+  --green: #22C55E;
+  --orange: #FB923C;
+  --red: #FF4D5B;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { 
+  background: rgba(14,207,176,0.3); 
+  border-radius: 3px; 
+}

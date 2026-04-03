@@ -1,38 +1,55 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --bg-0: #07090f;
+  --bg-1: #0c0f1a;
+  --bg-2: #111624;
+  --bg-3: #171d2e;
+  --bg-4: #1e2538;
+  --border: rgba(255, 255, 255, 0.07);
+  --orange: #e8621a;
+  --orange-dim: rgba(232, 98, 26, 0.12);
+  --teal: #2ed8c3;
+  --teal-dim: rgba(46, 216, 195, 0.1);
+  --amber: #f5a623;
+  --red: #ff4d5e;
+  --green: #2ed87a;
+  --blue: #4d8ff5;
+  --text-1: #edf2ff;
+  --text-2: #7a94b8;
+  --text-3: #3d5270;
+  --sidebar-w: 220px;
+  --radius: 12px;
+  --radius-sm: 8px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--bg-0);
+  color: var(--text-1);
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  -webkit-font-smoothing: antialiased;
 }
 
-.App-link {
-  color: #61dafb;
+h1, h2, h3, h4, h5 {
+  font-family: 'Syne', sans-serif;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+  cursor: pointer;
+  font-family: 'Instrument Sans', sans-serif;
 }
+
+input, select, textarea {
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-1); }
+::-webkit-scrollbar-thumb { background: var(--bg-1);}
