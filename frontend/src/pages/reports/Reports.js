@@ -30,6 +30,8 @@ function Reports() {
   const totalProducts = products.length;
   const inStock = products.filter((p) => p.quantity > 3).length;
   const lowStock = products.filter((p) => p.quantity > 0 && p.quantity <= 3).length;
+  
+  /* eslint-disable no-unused-vars */
   const outOfStock = products.filter((p) => p.quantity === 0).length;
   const totalValue = products.reduce((acc, p) => acc + (p.price * p.quantity || 0), 0);
 
